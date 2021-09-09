@@ -12,6 +12,12 @@ addBtn.addEventListener("click", () => {
   modal.style.display = "flex"
 })
 
+window.onclick = (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
 function Book(title, author, pages, isRead) {
   this.title = title
   this.author = author
