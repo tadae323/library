@@ -25,13 +25,15 @@ window.onclick = (event) => {
 
 saveBtn.addEventListener("click", addBookToLibrary)
 
-function Book(title, author, pages, isRead) {
-  this.title = title
-  this.author = author
-  this.pages = pages
-  this.isRead = isRead
-  this.info = function() {
-    console.log(`${this.title} by ${this.author}, ${pages} pages, ${this.isRead ? "already read" : "not read yet"}`)
+class Book {
+  constructor(title, author, pages, isFinished) {
+    this.title = title
+    this.author = author
+    this.pages = pages
+    this.isFinished = isFinished
+    this.info = function () {
+      console.log(`${this.title} by ${this.author}, ${pages} pages, ${this.isFinished ? "already read" : "not read yet"}`)
+    }
   }
 }
 
@@ -39,6 +41,14 @@ const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false)
 theHobbit.info()
 
 function addBookToLibrary() {
-  // create new Book object 
-  // name?
+  let title = document.querySelector("#title").value
+  let author = document.querySelector("#author").value
+  let pages = document.querySelector("#pages").value
+  let finished = document.querySelector("#finished").checked ? true : false
+  let bookToAdd = new Book(title, author, pages, finished)
+  console.log(bookToAdd)
 }
+
+// TO-DO:
+// for each book in myLibrary, render book
+// save books to local storage
