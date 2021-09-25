@@ -8,9 +8,17 @@ const titleInput = document.querySelector("#title")
 const authorInput = document.querySelector("#author")
 const pagesInput = document.querySelector("#pages")
 const finishedCheckbox = document.querySelector("#finished")
+const libraryFromLocalStorage = JSON.parse(localStorage.getItem("myLibrary"))
+const shelf = document.querySelector("#shelf")
+
+if (libraryFromLocalStorage) {
+  myLibrary = libraryFromLocalStorage
+  render(myLibrary)
+}
+
 
 closeBtn.addEventListener("click", () => {
-  modal.style.display = "none";
+  modal.style.display = "none"
 })
 
 addBtn.addEventListener("click", () => {
@@ -19,7 +27,7 @@ addBtn.addEventListener("click", () => {
 
 window.onclick = (event) => {
   if (event.target == modal) {
-    modal.style.display = "none";
+    modal.style.display = "none"
   }
 }
 
@@ -31,24 +39,35 @@ class Book {
     this.author = author
     this.pages = pages
     this.isFinished = isFinished
-    this.info = function () {
-      console.log(`${this.title} by ${this.author}, ${pages} pages, ${this.isFinished ? "already read" : "not read yet"}`)
-    }
   }
 }
 
-const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false)
-theHobbit.info()
-
-function addBookToLibrary() {
-  let title = document.querySelector("#title").value
-  let author = document.querySelector("#author").value
-  let pages = document.querySelector("#pages").value
-  let finished = document.querySelector("#finished").checked ? true : false
-  let bookToAdd = new Book(title, author, pages, finished)
-  console.log(bookToAdd)
+function clearValues() {
+  titleInput.value = ""
+  authorInput.value = ""
+  pagesInput.value = ""
+  finishedCheckbox.checked = false
 }
 
-// TO-DO:
-// for each book in myLibrary, render book
-// save books to local storage
+function addBookToLibrary() {
+  let title = titleInput.value
+  let author = authorInput.value
+  let pages = authorInput.value
+  let finished = finishedCheckbox.checked ? true : false
+  let bookToAdd = new Book(title, author, pages, finished)
+  modal.style.display = "none"
+  myLibrary.push(bookToAdd)
+  localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
+  render(myLibrary)
+  clearValues()
+}
+
+function render(booksArray) {
+  let bookList = ""
+  console.log(booksArray)
+  for (let i = 0; i < booksArray.lenght; i++) {
+    bookList += `<div class="books">book${i}</div>`
+  }
+  shelf.innerHTML = bookList
+  // figure out why this isn't working
+}
